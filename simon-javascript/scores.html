@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Tell browsers not to scale the viewport automatically -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnakeKing CSS</title>
+    <link rel="icon" href="favicon.ico" />
+
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Include bootstrap CSS framework -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-primary text-light">
+    <header class="container-fluid">
+      <nav class="navbar fixed-top navbar-dark">
+        <a class="navbar-brand" href="index.html">SnakeKing<sup></sup></a>
+        <menu class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link " href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="scores.html">Scores</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="difficulty.html">Difficulty</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+        </menu>
+      </nav>
+    </header>
+
+    <main class="container-fluid bg-dark text-center">
+      <table class="table table-light table-striped-columns">
+        <thead class="table-primary">
+          <tr>
+            <th>#1-10</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody id="scores"></tbody>
+      </table>
+    </main>
+
+    <footer class="bg-dark text-white-50">
+      <div class="container-fluid">
+       <span class="text-reset">Author Solon</span>
+        <a class="text-reset" href="https://github.com/Solon-B/cs260-BYU">Source</a>
+      </div>
+    </footer>
+
+    <script>
+      // Function to load and display scores
+      function loadScores() {
+        let scores = [];
+        const scoresText = localStorage.getItem('scores');
+        const tableBodyEl = document.querySelector('#scores');
+
+        if (scoresText) {
+          scores = JSON.parse(scoresText);
+        }
+
+        // Sort scores by score value
+        scores.sort((a, b) => b.score - a.score);
+
+        // Clear the existing table
+        tableBodyEl.innerHTML = '';
+
+        if (scores.length) {
+          for (let i = 0; i < Math.min(10, scores.length); i++) {
+            const score = scores[i];
+            const positionTdEl = document.createElement('td');
+            const nameTdEl = document.createElement('td');
+            const scoreTdEl = document.createElement('td');
+            const dateTdEl = document.createElement('td');
+
+            positionTdEl.textContent = i + 1;
+            nameTdEl.textContent = score.name;
+            scoreTdEl.textContent = score.score;
+            dateTdEl.textContent = score.date;
+
+            const rowEl = document.createElement('tr');
+            rowEl.appendChild(positionTdEl);
+            rowEl.appendChild(nameTdEl);
+            rowEl.appendChild(scoreTdEl);
+            rowEl.appendChild(dateTdEl);
+
+            tableBodyEl.appendChild(rowEl);
+          }
+        }
+      }
+
+      // Call the loadScores function to load and display scores when the page loads
+      loadScores();
+    </script>
+
+    <!-- Include your game code, player name retrieval, and score saving functions here -->
+    <script src="play_hard.js"></script>
+  </body>
+</html>
